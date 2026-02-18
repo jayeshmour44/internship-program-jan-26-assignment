@@ -33,6 +33,7 @@ Create a concise architecture proposal for an MVP.
 You need to put your solution here.
 
 Solution:
+
 A. Minimal User Flow
 
 1. User logs into the platform using frontend (React.js).
@@ -172,8 +173,6 @@ Provide:
 You need to put your solution here.
 
 Solution:
-
-## Your Solution for problem 2:
 
 A. Minimal User Flow
 
