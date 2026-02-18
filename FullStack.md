@@ -31,8 +31,121 @@ Create a concise architecture proposal for an MVP.
 **Your Solution for problem 1:**
 
 You need to put your solution here.
+A. Minimal User Flow
 
----
+1. User logs into the platform using frontend (React.js).
+2. User uploads a video file.
+3. Backend receives the video and stores it in storage.
+4. Backend processes the video and generates summary, highlights, clips, and screenshots.
+5. User views and downloads the generated summary and assets.
+
+B. High-Level Architecture
+Frontend (React.js):
+- Allows user to upload video
+- Shows processing status
+- Displays summary and highlights
+- Provides download links for clips and screenshots
+  
+Backend (Node.js + Express.js):
+- Handles video upload API
+- Stores video metadata in MongoDB
+- Processes video and generates summary
+- Manages summary and asset retrieval
+
+Database (MongoDB):
+- Stores user data
+- Stores video information
+- Stores summary and highlights data
+
+Storage:
+- Stores uploaded videos
+- Stores generated clips and screenshots
+- Stores Summary.md file
+
+Processing Module:
+- Extracts video metadata (duration, filename)
+- Generates summary using AI API
+- Creates clips and screenshots based on timestamps
+
+Flow:
+React Frontend → Express API → MongoDB + Storage → Processing Module → MongoDB → Frontend
+
+C. Job Lifecycle
+
+1. User uploads video → status = uploaded
+2. System starts processing → status = processing
+3. Summary and assets generated → status = completed
+4. If error occurs → status = failed
+
+Frontend checks status using API and updates UI.
+
+D. Output Folder Structure
+For each video, system generates:
+
+output/
+  videoId/
+    Summary.md
+    clips/
+    screenshots/
+
+Summary.md contains:
+- Video metadata
+- Summary
+- Highlights with timestamps
+- Links to clips and screenshots
+
+E. Data Model
+
+User Collection:
+- _id
+- name
+- email
+- password
+
+Video Collection:
+- _id
+- userId
+- fileName
+- fileUrl
+- status
+- createdAt
+
+Summary Collection:
+- _id
+- videoId
+- summaryText
+- highlights
+- createdAt
+
+Asset Collection:
+- _id
+- videoId
+- clipUrls
+- screenshotUrls
+
+F. API Endpoints
+
+POST /api/auth/register
+POST /api/auth/login
+
+POST /api/videos/upload
+GET /api/videos
+
+GET /api/videos/:id
+GET /api/videos/:id/status
+
+GET /api/videos/:id/summary
+
+GET /api/videos/:id/assets
+
+DELETE /api/videos/:id
+
+G. Scalability Considerations
+
+- Video processing runs separately from API to avoid blocking requests
+- MongoDB indexes improve performance
+- Storage is separated for better scalability
+- Backend can handle multiple users and videos
 
 ## **Problem 2:** **LinkedIn Automation Platform (Architecture + Prompt Spec)**
 
