@@ -171,7 +171,127 @@ Provide:
 
 You need to put your solution here.
 
----
+Solution:
+
+## Your Solution for problem 2:
+
+A. Minimal User Flow
+
+1. User logs into the platform.
+2. User connects their LinkedIn account using secure authentication.
+3. User creates or updates their persona (tone, style, experience, preferences).
+4. User enters a topic for LinkedIn post generation.
+5. System generates multiple post drafts based on persona and topic.
+6. User reviews drafts, selects one, and chooses to post immediately or schedule for later.
+7. System automatically publishes the post to LinkedIn at the selected time.
+
+B. High-Level Architecture
+
+Frontend (React.js):
+- Provides UI for LinkedIn connection, persona setup, topic input, and post review.
+- Displays generated drafts and scheduling options.
+- Shows post status and history.
+
+Backend (Node.js + Express.js):
+- Handles authentication and LinkedIn connection.
+- Receives topic and persona data.
+- Generates post drafts using AI service.
+- Stores drafts and scheduling info in MongoDB.
+- Publishes posts to LinkedIn using LinkedIn API.
+
+Database (MongoDB):
+- Stores user data, persona configuration, LinkedIn access tokens, post drafts, and scheduling details.
+
+AI Service:
+- Generates LinkedIn posts based on user persona and topic.
+
+Scheduler Module:
+- Runs periodically to check scheduled posts.
+- Publishes posts automatically at the scheduled time.
+
+Integration Flow:
+React Frontend → Express Backend → MongoDB → AI Service → MongoDB → Scheduler → LinkedIn API
+
+C. LinkedIn Integration and Authentication
+
+- User connects LinkedIn account using OAuth authentication.
+- LinkedIn provides an access token after successful authorization.
+- Backend securely stores the access token in MongoDB.
+- Backend uses this token to publish posts automatically using LinkedIn API.
+- Ensures secure and authorized access to user's LinkedIn account.
+
+D. Data Model
+
+User Collection:
+- _id
+- name
+- email
+- password
+- linkedinAccessToken
+- createdAt
+
+Persona Collection:
+- _id
+- userId
+- tone
+- style
+- experience
+- languagePreference
+- createdAt
+
+Post Collection:
+- _id
+- userId
+- personaId
+- topic
+- content
+- status (draft, approved, scheduled, published, failed)
+- scheduledTime
+- createdAt
+
+E. API Endpoints
+
+POST /api/auth/register
+POST /api/auth/login
+
+POST /api/linkedin/connect
+GET /api/linkedin/status
+
+POST /api/persona
+GET /api/persona
+
+POST /api/posts/generate
+GET /api/posts
+
+POST /api/posts/approve
+
+POST /api/posts/schedule
+
+POST /api/posts/publish
+
+GET /api/posts/status
+
+F. Scheduling and Publishing Flow
+
+1. User selects and approves a post.
+2. User chooses immediate publishing or scheduling.
+3. Backend saves scheduling information in MongoDB.
+4. Scheduler checks database regularly for scheduled posts.
+5. When scheduled time arrives, backend publishes post using LinkedIn API.
+6. Post status is updated to "published".
+
+G. Status Lifecycle
+
+draft → approved → scheduled → published → failed
+
+H. Scalability and Reliability Considerations
+
+- Backend handles multiple users and posts efficiently.
+- Scheduling runs independently from main API to avoid blocking requests.
+- MongoDB indexes improve performance.
+- Secure token storage ensures safe LinkedIn integration.
+- System maintains post history and status tracking.
+
 
 ## **Problem 3:** **DOCX Template → Bulk DOCX/PDF Generator Architecture**
 
