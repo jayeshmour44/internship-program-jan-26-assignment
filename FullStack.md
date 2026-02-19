@@ -314,7 +314,131 @@ Provide MVP architecture + LLM prompt spec for:
 
 You need to put your solution here.
 
----
+Solution:
+
+A. Minimal User Flow
+
+1. User uploads a DOCX template file.
+2. System analyzes the template and detects editable fields.
+3. User reviews and confirms detected fields.
+4. User enters field values manually or uploads Excel/CSV file for bulk generation.
+5. System generates DOCX/PDF documents.
+6. User downloads generated document or ZIP file for bulk generation.
+
+B. High-Level Architecture
+
+Frontend (React.js):
+- Allows user to upload DOCX template
+- Displays detected fields
+- Allows manual input or Excel upload
+- Provides download links
+
+Backend (Node.js + Express.js):
+- Handles template upload
+- Parses DOCX file and detects fields
+- Generates documents by replacing template fields
+- Handles bulk document generation
+
+Database (MongoDB):
+- Stores template metadata
+- Stores field definitions
+- Stores bulk generation job status
+
+Storage:
+- Stores uploaded templates
+- Stores generated documents
+- Stores ZIP files
+
+Processing Module:
+- Parses DOCX templates
+- Replaces placeholders with actual values
+- Generates final DOCX or PDF files
+
+Flow:
+React Frontend → Express Backend → Template Parser → MongoDB → Document Generator → Storage → Frontend
+
+C. Data Model
+
+Template Collection:
+- _id
+- name
+- fileUrl
+- fields
+- createdAt
+
+TemplateField Collection:
+- _id
+- templateId
+- fieldName
+- fieldType
+- required
+
+BulkRun Collection:
+- _id
+- templateId
+- status
+- createdAt
+
+RowResult Collection:
+- _id
+- bulkRunId
+- status
+- fileUrl
+- errorMessage
+
+Artifact Collection:
+- _id
+- fileUrl
+- type (docx, pdf, zip)
+- createdAt
+
+D. API Endpoints
+
+POST /api/templates/upload
+GET /api/templates
+
+GET /api/templates/:id
+
+POST /api/templates/:id/generate
+
+POST /api/templates/:id/bulk-generate
+
+GET /api/jobs/:id/status
+
+GET /api/download/:id
+
+E. Template Field Detection
+
+- Backend analyzes DOCX template
+- Detects placeholders like {{name}}, {{date}}
+- Stores field names in database
+- User confirms field mapping
+
+F. Bulk Generation Flow
+
+1. User uploads Excel file
+2. Backend reads each row
+3. Replaces template fields with row data
+4. Generates document for each row
+5. Stores generated documents
+6. Creates ZIP file for download
+
+G. Output Format
+
+Single generation:
+- Generated DOCX or PDF file
+
+Bulk generation:
+- ZIP file containing documents
+- Generation report with success/failure status
+
+H. Scalability Considerations
+
+- Bulk processing handled asynchronously
+- Storage separated from backend
+- MongoDB tracks job progress
+- System handles multiple templates and users
+
 
 ## **Problem 4:** **Character-Based Video Series Generator (Architecture Proposal)**
 
