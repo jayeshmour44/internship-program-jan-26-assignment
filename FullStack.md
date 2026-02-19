@@ -458,3 +458,144 @@ Create a small architecture proposal for MVP.
 **Your Solution for problem 4:**
 
 You need to put your solution here.
+
+Solution:
+
+A. Minimal User Flow
+
+1. User creates characters with image, personality, and voice settings.
+2. User defines relationships between characters.
+3. User provides episode story prompt and selects characters.
+4. System generates script, scenes, and asset plan.
+5. System generates visual assets and voiceover.
+6. System combines assets and generates final video.
+7. User downloads video and supporting assets.
+
+B. High-Level Architecture
+
+Frontend (React.js):
+- Allows user to create and manage characters
+- Allows user to create episodes
+- Displays generated scripts and videos
+- Provides download options
+
+Backend (Node.js + Express.js):
+- Handles character and episode creation
+- Stores character and episode data
+- Generates scripts and scenes using AI
+- Manages asset generation and video rendering
+
+Database (MongoDB):
+- Stores character data
+- Stores relationships
+- Stores episode data
+- Stores asset references
+
+Storage:
+- Stores character images
+- Stores generated assets
+- Stores final videos
+
+Processing Pipeline:
+- Script Generator
+- Scene Generator
+- Asset Generator
+- Voice Generator
+- Video Renderer
+
+Flow:
+React Frontend → Express Backend → MongoDB → AI Services → Asset Generator → Video Renderer → Storage → Frontend
+
+C. Data Model
+
+Character Collection:
+- _id
+- name
+- personality
+- imageUrl
+- voiceSettings
+- createdAt
+
+Relationship Collection:
+- _id
+- character1Id
+- character2Id
+- relationshipType
+
+Episode Collection:
+- _id
+- title
+- prompt
+- characterIds
+- script
+- status
+- createdAt
+
+Scene Collection:
+- _id
+- episodeId
+- sceneNumber
+- description
+- dialogue
+
+Asset Collection:
+- _id
+- episodeId
+- type (image, audio, video)
+- fileUrl
+
+D. Pipeline Flow
+
+1. User provides story prompt
+2. Backend generates script
+3. Script is divided into scenes
+4. Assets are generated for each scene
+5. Voiceover is generated
+6. Video renderer combines assets into final video
+7. Video stored and available for download
+
+E. Consistency Strategy
+
+- Character data stored in MongoDB
+- Same character image and voice reused
+- Character personality stored and reused
+- Relationships stored and reused
+
+This ensures consistency across episodes.
+
+F. MVP Scope
+
+MVP Features:
+- Character creation
+- Episode script generation
+- Scene generation
+- Asset generation
+- Video rendering
+
+Future Enhancements:
+- Advanced video editing
+- Real-time preview
+- Multiple animation styles
+
+G. API Endpoints
+
+POST /api/characters
+GET /api/characters
+
+POST /api/episodes
+GET /api/episodes
+
+GET /api/episodes/:id
+
+POST /api/episodes/:id/generate
+
+GET /api/assets/:id
+
+GET /api/download/:id
+
+H. Scalability Considerations
+
+- Asset generation handled asynchronously
+- Storage separated from backend
+- MongoDB stores asset references
+- System supports multiple characters and episodes
